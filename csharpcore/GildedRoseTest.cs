@@ -18,12 +18,18 @@ namespace csharpcore
         [Fact]
         public void UpdateQuality_Should_UpdateQualityAndSellIn()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "foo", SellIn = 10, Quality = 10 } };
+            IList<Item> Items = new List<Item> { 
+                new Item { Name = "foo", SellIn = 10, Quality = 10 },
+                new Item { Name = "foo", SellIn = 1, Quality = 10 }  
+            };
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
             
             Items[0].Quality.Should().Be(9);
             Items[0].SellIn.Should().Be(9);
+
+            Items[1].Quality.Should().Be(9);
+            Items[1].SellIn.Should().Be(0);
         }
 
         [Fact]
@@ -53,10 +59,13 @@ namespace csharpcore
         [Fact]
         public void Quality_Should_Increase_When_AgedBrie()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "Aged Brie", SellIn = 1, Quality = 2 } };
+            IList<Item> Items = new List<Item> { 
+                new Item { Name = "Aged Brie", SellIn = 1, Quality = 2 }
+            };
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
             Items[0].Quality.Should().Be(3);
+            Items[0].SellIn.Should().Be(0);
         }
 
         [Fact]
@@ -66,6 +75,8 @@ namespace csharpcore
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
             Items[0].Quality.Should().Be(50);
+            Items[0].SellIn.Should().Be(0);
+
         }
 
         [Fact]
@@ -85,14 +96,21 @@ namespace csharpcore
         public void Quality_Should_IncreaseBy2_When_SellIn_LessOrEqualThan10()
         {
             IList<Item> Items = new List<Item> { 
+                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 11, Quality = 10 },
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 10, Quality = 10 },
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 9, Quality = 10 }
             };
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
             
-            Items[0].Quality.Should().Be(12);
+            Items[0].Quality.Should().Be(11);
+            Items[0].SellIn.Should().Be(10);
+
             Items[1].Quality.Should().Be(12);
+            Items[1].SellIn.Should().Be(9);
+
+            Items[2].Quality.Should().Be(12);
+            Items[2].SellIn.Should().Be(8);
 
         }
 
@@ -101,13 +119,15 @@ namespace csharpcore
         {
             IList<Item> Items = new List<Item> { 
                 new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 5, Quality = 10 },
-                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 4, Quality = 10 }
+                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 4, Quality = 10 },
+                new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 1, Quality = 10 }
             };
             GildedRose app = new GildedRose(Items);
             app.UpdateQuality();
             
             Items[0].Quality.Should().Be(13);
             Items[1].Quality.Should().Be(13);
+            Items[2].Quality.Should().Be(13);
 
         }
 
